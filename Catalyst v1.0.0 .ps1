@@ -1,5 +1,6 @@
 cls
 set-location C:\Temp
+$checkadmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 $Host.UI.RawUI.BackgroundColor = 'Black'
 $Host.UI.RawUI.ForegroundColor = 'White'
 cls
@@ -9,10 +10,17 @@ $Host.UI.RawUI.BufferSize = [System.Management.Automation.Host.Size]::new(70, 30
 $Host.UI.RawUI.WindowTitle = "Catalyst 1.0"
 
 if (-not (Test-Path "C:\ProgramData\chocolatey")) {
+	if ($checkadmin) {
 	write-host "Chocolatey is not installed! Please install chocolatey." -ForegroundColor red
 	write-host "Starting Automatic Download...." -ForegroundColor Yellow
 	write-host "If you get an error, elevate this script and rerun..." -ForegroundColor red
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+} else {
+	write-host "Chocolatey is not installed!" -ForegroundColor red
+	write-host "However, this instance is not run as administrator.`nIn order for choclatey to function,`nyou need to run it as administrator." -ForegroundColor Red
+	
+	read-host
+}
 } else {
 	do {
 		cls
@@ -45,6 +53,4 @@ if (-not (Test-Path "C:\ProgramData\chocolatey")) {
 }
 } while ($input -ne 'Q')
 }
-
-
 
