@@ -12,7 +12,7 @@ if (-not (Test-Path "C:\ProgramData\chocolatey")) {
 	write-host "Chocolatey is not installed! Please install chocolatey." -ForegroundColor red
 	write-host "Starting Automatic Download...." -ForegroundColor Yellow
 	write-host "If you get an error, elevate this script and rerun..." -ForegroundColor red
-	powershell -command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+    "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
 } else {
 	do {
 		cls
@@ -45,4 +45,5 @@ if (-not (Test-Path "C:\ProgramData\chocolatey")) {
 }
 } while ($input -ne 'Q')
 }
+
 
